@@ -3,6 +3,7 @@ const { addBlogDao, findBlogByPageDao, findBlogByIdDao, updateBlogDao, deleteBlo
 const { addBlogToType, findOneBlogTypeDao } = require("../dao/blogTypeDao");
 const blogTypeModel = require("../dao/model/blogTypeModel");
 const { VerificationError } = require("../utils/error");
+const { handleTOC } = require("../utils/tool");
 
 validate.validators.categoryIdIsExist = async function (val) {
   const result = await blogTypeModel.findByPk(val);
@@ -13,9 +14,9 @@ validate.validators.categoryIdIsExist = async function (val) {
   }
 }
 
-
 exports.addBlogService = async newBlogInfo => {
-  newBlogInfo.toc = JSON.stringify('["a":"b"]');
+  newBlogInfo = handleTOC(newBlogInfo);
+  newBlogInfo.toc = JSON.stringify(newBlogInfo.toc)
 
   newBlogInfo.scanNumber = 0;
 
@@ -32,12 +33,6 @@ exports.addBlogService = async newBlogInfo => {
       },
       type: "string",
     },
-    toc: {
-      presence: {
-        allowEmpty: false,
-      },
-      type: "string",
-    },
     htmlContent: {
       presence: {
         allowEmpty: false,
@@ -46,7 +41,7 @@ exports.addBlogService = async newBlogInfo => {
     },
     thumb: {
       presence: {
-        allowEmpty: false,
+        allowEmpty: true,
       },
       type: "string",
     },
@@ -99,7 +94,9 @@ exports.findBlogByIdService = async (id, auth) => {
 
 exports.updateBlogService = async (id, newBlogInfo) => {
   if (newBlogInfo.htmlContent) {
-    // 重新处理TOC
+    newBlogInfo = handleTOC(newBlogInfo);
+
+    newBlogInfo.toc = JSON.parse(newBlogInfo.toc);
   }
   const { dataValues } = await updateBlogDao(id, newBlogInfo);
   return dataValues;
