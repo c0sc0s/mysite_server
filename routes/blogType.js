@@ -9,7 +9,7 @@ const { formatResponse } = require('../utils/tool');
 const {
   addBlogTypeService,
   findAllBlogTypesService,
-  findBlogTypeService,
+  findOneBlogTypeService,
   uploadBlogTypeService,
   deleteBlogTypeService
 } = require('../service/blogTypeService');
@@ -22,20 +22,24 @@ router.post('/', async function (req, res, next) {
 
 // 获取所有分类
 router.get('/', async function (req, res, next) {
-  findAllBlogTypesService();
+  const data = await findAllBlogTypesService();
+  res.send(formatResponse(0, "", data));
 });
 
 // 获取某个文章的分类
 router.get('/:id', async function (req, res, next) {
-  findBlogTypeService(req.params.id);
+  const data = await findOneBlogTypeService(req.params.id);
+  res.send(formatResponse(0, "", data));
 });
 
 // 修改某个文章的分类
 router.put('/:id', async function (req, res, next) {
-  uploadBlogTypeService(req.params.id);
+  const data = await uploadBlogTypeService(req.params.id, req.body);
+  res.send(formatResponse(0, "", data));
 });
 
 // 删除某个文章的分类
 router.delete('/:id', async function (req, res, next) {
-  deleteBlogTypeService(req.params.id)
+  const data = await deleteBlogTypeService(req.params.id);
+  res.send(formatResponse(0, "", data));
 });
