@@ -43,7 +43,8 @@ app.use(expressjwt({
     { url: "/res/captcha", method: ["GET"] },
     { url: "/api/banner", method: ["GET"] },
     { url: "/api/blogtype", method: ["GET"] },
-    { url: /\/api\/blog[\/\d]?/, method: ["GET"] }
+    { url: /\/api\/blog[\/\d]?/, method: ["GET"] },
+    { url: "/api/project", method: ["GET"] }
   ]
 }))
 
@@ -54,6 +55,7 @@ app.use("/api/banner", require("./routes/banner"));
 app.use("/api/upload", require("./routes/upload"));
 app.use("/api/blogType", require("./routes/blogType"));
 app.use("/api/blog", require("./routes/blog"));
+app.use("/api/project", require("./routes/demo"));
 
 // 错误处理中间件
 // catch 404 and forward to error handler

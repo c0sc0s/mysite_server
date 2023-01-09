@@ -2,17 +2,29 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../dbConnect");
 
 module.exports = sequelize.define(
-  "admin",
+  "demo",
   {
-    loginId: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    loginPwd: {
+    url: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    github: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    order: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    thumb: {
       type: DataTypes.STRING,
       allowNull: false,
     },
