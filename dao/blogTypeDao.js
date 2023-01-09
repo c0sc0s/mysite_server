@@ -1,6 +1,5 @@
 const blogTypeModel = require("./model/blogTypeModel")
 
-// 添加博客分类
 exports.addBlogTypeDao = async newBlogTypeInfo => {
   const { dataValues } = await blogTypeModel.create(newBlogTypeInfo);
   return dataValues;
@@ -28,4 +27,11 @@ exports.deleteBlogTypeDao = async id => {
   return await blogTypeModel.destroy({
     where: { id },
   })
+}
+
+exports.addBlogToType = async id => {
+  const data = await blogTypeModel.findByPk(id);
+  data.articleCount++;
+  await data.save();
+  return;
 }

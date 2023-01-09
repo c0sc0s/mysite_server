@@ -5,9 +5,22 @@ const sequelize = require("./dbConnect");
 const adminModel = require("./model/adminModel");
 const bannerModel = require("./model/bannerModel");
 const blogTypeModel = require("./model/blogTypeModel");
+const blogModel = require("./model/blogModel");
 
 const md5 = require("md5");
 (async function () {
+  blogTypeModel.hasMany(blogModel, {
+    foreignKey: "categoryId",
+    targetKey: "id"
+  });
+
+  blogModel.belongsTo(blogTypeModel, {
+    foreignKey: "categoryId",
+    targetKey: "id",
+    as: "category"
+  })
+
+
   // 同步
   await sequelize.sync({
     alter: true,
